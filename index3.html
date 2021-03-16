@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Rocket Simulation</title>
+        <style>
+        label { display: block; margin-bottom: 7px;}
+        </style>
+    </head>
+    <script>
+        window.addEventListener("load",function() {
+            let form = document.querySelector("form");
+            form.addEventListener("submit",function(event){
+                console.log("submitted");
+                let testName = document.querySelector("input[name=testName]");
+                let testDate = document.querySelector("input[name=testDate]");    
+                let rocketType = document.querySelector("select[name=rocketType]");
+                let boosterCount = document.querySelector("input[name=boosterCount]");
+                let windRating = document.querySelector("input[name=windRating]");
+                let productionServers = document.querySelector("input[name=productionServers]");
+                
+                console.log(`testname.value: ${testName.value}`)
+                if (testName.value === "") {
+                    alert("Test Name is a required Field!");
+                    event.preventDefault();
+                console.log(`testDate.value: ${testDate.value}`)
+                }
+                if (testDate.value === "") {
+                    alert("Test Date is a required Field!");
+                    event.preventDefault();
+                }
+                console.log(`rocketType.value: ${rocketType.value}`)
+                if (rocketType.value === "null") {
+                    alert("Rocket Type is a required Field!");
+                    event.preventDefault();
+                }
+                console.log(`boosterCount.value: ${boosterCount.value}`)
+                if(Number(boosterCount.value) < 1) {
+                    alert("Number of Rocket Booster is a required Field!");
+                    event.preventDefault();
+                }
+                console.log(`windRating.value: ${windRating.value}`) 
+                let radios = document.getElementsByName('windRating'); 
+                let radioScore = 0;
+                console.log(radios);
+                console.log(radioScore);
+                for (let i=0 ; i < radios.length; i++) {
+                    if(radios[i].checked) {
+                        radioScore =+ 1
+                    }
+                };
+                console.log(radioScore);
+                if(radioScore < 1) {
+                    alert("Wind Rating is a required Field!");
+                    event.preventDefault();
+                };
+                console.log(`productionServers.value: ${productionServers.value}`) 
+                if(productionServers.checked) {
+                    productionServers.value = "on"
+                } else {
+                  productionServers.value = "off"
+                  confirm("Please confirm that you do NOT want to use prduction grade servers");   
+                };
+            });
+        });
+    </script> 
+
+    <body>
+        <form action="https://handlers.education.launchcode.org/request-parrot" method="POST" >
+
+        <label>TestName <input type="text" name="testName"/></label>
+        
+        <label>Test Date <input type="date" name="testDate"/></label>
+        
+        <label>Rocket Type: 
+            <select name="rocketType">
+            <option value="null"> * make a selection *</option>
+            <option value="brant">Brandt</option>
+            <option value="lynx">Lynx</option>
+            <option value="orion">Orion</option>
+            <option value="terrier">Terrier</option>
+            </select>
+        </label>
+
+        <label>Number of Rocket Boosters<input type="number" name="boosterCount" min="1" max="9"/></label>
+
+        <div margin="25px">Wind Rating:</div>
+            <label><input type="radio" name="windRating" value="0"/>No Wind</label>
+            <label><input type="radio" name="windRating" value="10"/>Mild</label>
+            <label><input type="radio" name="windRating" value="20"/>Strong</label>
+
+        <label>Use production grade servers<input type="checkbox" name="productionServers" /></label>
+
+        <button id="submit">Run Simulation</button>
+
+        </form>
+    </body>
+</html>
